@@ -6,7 +6,22 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware
 {
-    internal class Membership
+    class Membership
     {
+        public string Status { get; set; }
+
+        public int Points { get; set; }
+
+        public Membership() { }
+        public Membership(string s, int p )
+        {
+            Status = s;
+            Points = p;
+        }
+
+        public override string ToString()
+        {
+            return "Status: " + Status + " Points: " + Points;
+        }
     }
 }
