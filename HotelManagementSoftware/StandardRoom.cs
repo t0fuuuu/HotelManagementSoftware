@@ -16,9 +16,10 @@ namespace HotelManagementSoftware
 
         public StandardRoom(int r, string bedcfg, double dr, bool isavl): base(r,bedcfg, dr, isavl) { }
 
+        //calculate the daily charges
         public override double CalculateCharges()
         {
-            double TotalAddOn = 0;
+            double TotalAddOn = DailyRate;
             if (RequireWifi)
             {
                 TotalAddOn += 10;

@@ -14,9 +14,10 @@ namespace HotelManagementSoftware
 
         public DeluxeRoom(int r, string bedcfg, double dr, bool isavl) : base(r, bedcfg, dr, isavl) { }
 
+        //calculate the daily charges
         public override double CalculateCharges()
         {
-            double TotalAddOn = 0;
+            double TotalAddOn = DailyRate;
             if (AdditionalBed)
             {
                 TotalAddOn += 25;
