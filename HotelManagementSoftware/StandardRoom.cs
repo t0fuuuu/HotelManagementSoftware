@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HotelManagementSoftware
+{
+    class StandardRoom: Room
+    {
+        public bool RequireWifi { get; set; }
+
+        public bool RequireBreakfast { get; set; }
+
+        public StandardRoom(){ }
+
+        public StandardRoom(int r, string bedcfg, double dr, bool isavl): base(r,bedcfg, dr, isavl) { }
+
+        public override double CalculateCharges()
+        {
+
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + " RequireWifi: " + RequireWifi + " RequireBreakfast: " + RequireBreakfast;
+        }
+    }
+}

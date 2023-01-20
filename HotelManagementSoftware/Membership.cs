@@ -20,7 +20,7 @@ namespace HotelManagementSoftware
             Points = p;
         }
 
-        // add points based off the final amt paid and change the status respectively
+        // Add points based off the final amt paid and change the status respectively
         public void EarnPoints(double amt)
         {
             Points += (int)(amt / 10);
@@ -34,7 +34,8 @@ namespace HotelManagementSoftware
                 Status = "Gold";
             }
         }
-
+        
+        //Minus points if gold or silver and if it is possible or not
         public bool RedeemPoints(int p)
         {
             if (Status == "Gold" || Status == "Silver")
