@@ -8,13 +8,13 @@ namespace HotelManagementSoftware
 {
     class Membership
     {
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
 
         public int Points { get; set; }
 
         public Membership() { }
-        public Membership(string s, int p )
+        public Membership(string? s, int p )
         {
             Status = s;
             Points = p;
