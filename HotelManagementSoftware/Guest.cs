@@ -20,5 +20,9 @@ namespace HotelManagementSoftware
             Member = m;
             IsCheckedin = ischeck;
         }
+        public override string ToString()
+        {
+            return "Name: " + Name + "PassportNum: " + PassportNum + "Member: " + Member + "IsCheckedIn: " + IsCheckedin ;
+        }
     }
 }
