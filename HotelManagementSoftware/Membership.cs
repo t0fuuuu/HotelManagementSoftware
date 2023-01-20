@@ -9,8 +9,6 @@ namespace HotelManagementSoftware
     class Membership
     {
         public string? Status { get; set; }
-
-
         public int Points { get; set; }
 
         public Membership() { }
@@ -32,6 +30,10 @@ namespace HotelManagementSoftware
             else if (Points >= 200)
             {
                 Status = "Gold";
+            }
+            else
+            {
+                Status = "Ordinary";
             }
         }
         
