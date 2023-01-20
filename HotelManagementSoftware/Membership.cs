@@ -9,7 +9,7 @@ namespace HotelManagementSoftware
     class Membership
     {
         public string Status { get; set; }
-
+        
         public int Points { get; set; }
 
         public Membership() { }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace HotelManagementSoftware
 {
-    class gay
+    class people
     {
-        public int myGayClass { get; set; }
-
-
+        public int asshole { get; set; }
     }
 }
