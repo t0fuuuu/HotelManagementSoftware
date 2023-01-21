@@ -1,6 +1,5 @@
 ﻿using HotelManagementSoftware;
 
-List<Membership> membershipList = new List<Membership>();
 List<Guest> guestList = new List<Guest>();
 
 void CreateMembership(List<Membership> membershipList)
