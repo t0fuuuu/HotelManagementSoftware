@@ -1,7 +1,7 @@
 ﻿using HotelManagementSoftware;
 
 List<Guest> guestList = new List<Guest>();
-
+List<Room> roomList = new List<Room>();
 
 void CreateGuests(List<Guest> guestList)
 {
@@ -27,6 +27,41 @@ void CreateGuests(List<Guest> guestList)
     }
 }
 
+void CreateRoom(List<Room> roomList, List<Guest> guestList)
+{
+    string[] roomLine = File.ReadAllLines("Rooms.csv");
+    for(int i = 1; i < roomLine.Length; i++)
+    {
+        bool temA = false;
+        string[] each = roomLine[i].Split(',');
+        int roomNumber = Convert.ToInt32(each[1]);
+        foreach(Guest guest in guestList)
+        {
+            if (guest.IsCheckedIn == true)
+            {
+                foreach(Room r in guest.HotelStay.RoomList)
+                {
+                    if (r.RoomNumber == roomNumber)
+                    {
+                        temA = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (each[0] == "Standard")
+        {
+            Room room = new StandardRoom(roomNumber, each[2], Convert.ToDouble(each[3]), temA);
+            roomList.Add(room);
+        }
+        else if (each[0] == "Deluxe")
+        {
+            Room room = new DeluxeRoom(roomNumber, each[2], Convert.ToDouble(each[3]), temA);
+            roomList.Add(room);
+        }
+    }
+}
+
 void DisplayGuests(List<Guest> guestList)
 {
     foreach (Guest guest in guestList) 
@@ -35,6 +70,16 @@ void DisplayGuests(List<Guest> guestList)
     }
 }
 
+void DisplayRoom(List<Room> roomList)
+{
+    foreach (Room room in roomList)
+    {
+        Console.WriteLine(room.IsAvail);
+    }
+}
+
 CreateGuests(guestList);
 DisplayGuests(guestList);
+CreateRoom(roomList, guestList);
+DisplayRoom(roomList);
 
