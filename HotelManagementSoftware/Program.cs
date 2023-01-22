@@ -66,7 +66,8 @@ void DisplayGuests(List<Guest> guestList)
 {
     foreach (Guest guest in guestList) 
     {
-        Console.WriteLine(guest.Name);
+        Console.WriteLine("Name: {0,-7}   Passport Number: {1,-9}   Membership Status: {2,-8}   Membership Points: {3,-5}   IsCheckedIn: {4,0}",
+            guest.Name, guest.PassportNum, guest.Member.Status, guest.Member.Points, guest.IsCheckedIn);
     }
 }
 
