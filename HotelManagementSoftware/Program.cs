@@ -222,9 +222,19 @@ void RegisterGuest(List<Guest> guestList)
             string? guestname = Console.ReadLine();
             Console.Write("Enter Passport Number: ");
             string? guestpass = Console.ReadLine();
+            bool checkfirst = Char.IsLetter(guestpass[0]);
+            bool checklast = Char.IsLetter(guestpass[guestpass.Length - 1]);
             if (SearchGuestPass(guestList, guestpass) == true)
             {
                 Console.WriteLine("The guest you have entered has already been registered!");
+            }
+            else if (guestpass.Length > 9 || guestpass.Length < 9)
+            {
+                Console.WriteLine("Invalid Passport Number Entered!");
+            }
+            else if (checkfirst == false || checklast == false)
+            {
+                Console.WriteLine("Invalid Passport Number Entered!");
             }
             else
             {
@@ -237,9 +247,11 @@ void RegisterGuest(List<Guest> guestList)
                 {
                     sw.WriteLine(data);
                 }
+                Console.WriteLine("");
                 Console.WriteLine("Guest Registered!");
                 Console.WriteLine("Name: {0,-9} Passport Number: {1,-9}  Membership Status: {2,-9}  Membership Points: {3,-5}  IsCheckedIn: {4,0}",
                     newguest.Name, newguest.PassportNum, newguest.Member.Status, newguest.Member.Points, newguest.IsCheckedIn);
+                Console.WriteLine("");
                 break;
             }
         }
