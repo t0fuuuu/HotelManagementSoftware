@@ -1,12 +1,17 @@
-﻿using HotelManagementSoftware;
+﻿//======================================
+// Student Number : S102421111
+// Student Name : Ryan Ma
+//======================================
+
+using HotelManagementSoftware;
 
 List<Guest> guestList = new List<Guest>();
 List<Room> roomList = new List<Room>();
 List<Stay> stayList = new List<Stay>();
 
-int DisplayMenu()
+void DisplayMenu()
 {
-    Console.WriteLine("---Hotel Management System---");
+    Console.WriteLine("===Hotel Management System===");
     Console.WriteLine("[1] Display Hotel Guests");
     Console.WriteLine("[2] Display Available Rooms");
     Console.WriteLine("[3] Register New Hotel Guest");
@@ -14,11 +19,8 @@ int DisplayMenu()
     Console.WriteLine("[5] Display Guest Stay Details");
     Console.WriteLine("[6] Extend Number of Stays");
     Console.WriteLine("[0] Exit");
-    Console.WriteLine("-----------------------------");
+    Console.WriteLine("=============================");
     Console.WriteLine("");
-    Console.Write("Enter your option: ");
-    int option = Convert.ToInt32(Console.ReadLine());
-    return option;
 }
 
 void CreateGuests(List<Guest> guestList)
@@ -159,26 +161,31 @@ void DisplayAvailRoom(List<Room> roomList)
 void DisplayStay(List<Guest> guestList)
 {
     Console.WriteLine("Guest List:");
+    Console.WriteLine("");
+    Console.WriteLine("{0,-10} {1,-18}","Name", "Passport Number");
     foreach (Guest guest in guestList)
     {
-        Console.WriteLine(guest.Name);
+        Console.WriteLine("{0,-13} {1,-19}", guest.Name, guest.PassportNum);
     }
     Console.WriteLine("");
     while (true)
     {
         try
         {
-            Console.Write("Enter Guest Name: ");
-            string? search = Console.ReadLine();
-            if (SearchGuestName(guestList, search) == null)
+            Console.Write("Enter Guest Passport Number: ");
+            string? searchpass = Console.ReadLine();
+            if (SearchGuestPass(guestList, searchpass) == false)
             {
                 Console.WriteLine("Guest Not Found. Please Try Again!");
                 Console.WriteLine("");
             }
             else
             {
-                Guest foundguest = SearchGuestName(guestList, search);
-                Console.WriteLine();
+                Guest foundguest = GetGuest(guestList, searchpass);
+                Console.WriteLine("");
+                Console.WriteLine("Name: {0,0}  Passport Number: {1,0}", foundguest.Name, foundguest.PassportNum);
+                //CONTINUE!!!!!
+                break;
             }
         }
         catch (FormatException)
@@ -188,11 +195,11 @@ void DisplayStay(List<Guest> guestList)
     }
 }
 
-Guest SearchGuestName(List<Guest> guestList, string search)
+Guest GetGuest(List<Guest> guestList, string search)
 {
     foreach (Guest guest in guestList)
     {
-        if (guest.Name == search)
+        if (guest.PassportNum == search)
         {
             return guest;
         }
@@ -280,23 +287,51 @@ AddRoom(guestList, roomList);
 
 while (true)
 {
-    int option = DisplayMenu();
-    if (option == 0)
+    DisplayMenu();
+    while (true)
     {
-        Console.WriteLine("Thank you for using Hotel Management System 1.0!");
-        break;
-    }
-    if (option == 1)
-    {
-        DisplayGuests(guestList);
-    }
-    if (option == 2)
-    {
-        DisplayAvailRoom(roomList);
-    }
-    if (option == 3)
-    {
-        RegisterGuest(guestList);
+        try
+        {
+            Console.Write("Enter your option: ");
+            int option = Convert.ToInt32(Console.ReadLine());
+            if (option == 0)
+            {
+                Console.WriteLine("Thank you for using Hotel Management System! Have a Nice Day!");
+                break;
+            }
+            else if (option == 1)
+            {
+                DisplayGuests(guestList);
+            }
+            else if (option == 2)
+            {
+                DisplayAvailRoom(roomList);
+            }
+            else if (option == 3)
+            {
+                RegisterGuest(guestList);
+            }
+            else if (option == 4)
+            {
+
+            }
+            else if (option == 5)
+            {
+                DisplayStay(guestList);
+            }
+            else if (option == 6)
+            {
+
+            }
+            else
+            {
+                Console.WriteLine("Please Enter A Valid Option!");
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Please Enter A Valid Option! (0 to 6)");
+        }
     }
 }
 
