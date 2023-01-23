@@ -31,43 +31,66 @@ void CreateStay(List<Stay> stayList, List<Guest> guestList)
             if (g.PassportNum == each[1])
             {
                 g.HotelStay = tempStay;
-                g.IsCheckedIn = Convert.ToBoolean(each[2]);
+                g.IsCheckedIn= Convert.ToBoolean(each[2]);
                 break;
             }
         }
     }
 }
 
-void CreateRoom(List<Room> roomList, List<Guest> guestList)
+void AddRoom(List<Guest> guestList, List<Room> roomList)
+{
+    string[] stayLine = File.ReadAllLines("Stays.csv");
+    for (int i = 1; i < stayLine.Length; i++)
+    {
+        string[] each = stayLine[i].Split(",");
+        string[] header = stayLine[0].Split(",");
+        for (int j = 0; j < header.Length; j++)
+        {
+            if (header[j] == "RoomNumber")
+            {
+                foreach (Room room in roomList)
+                {
+                    if (each[j] == "")
+                    {
+                        break;
+                    }
+                    else if (room.RoomNumber == Convert.ToInt32(each[j]))
+                    {
+                        foreach (Guest guest in guestList)
+                        {
+                            if (guest.PassportNum == each[1])
+                            {
+                                guest.HotelStay.AddRoom(room);
+                                if (guest.IsCheckedIn == false)
+                                room.IsAvail = true;
+                                break;
+                                
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+void CreateRoom(List<Room> roomList)
 {
     string[] roomLine = File.ReadAllLines("Rooms.csv");
     for(int i = 1; i < roomLine.Length; i++)
     {
-        bool temA = false;
         string[] each = roomLine[i].Split(',');
         int roomNumber = Convert.ToInt32(each[1]);
-        foreach(Guest guest in guestList)
-        {
-            if (guest.IsCheckedIn == true)
-            {
-                foreach(Room r in guest.HotelStay.RoomList)
-                {
-                    if (r.RoomNumber == roomNumber)
-                    {
-                        temA = true;
-                        break;
-                    }
-                }
-            }
-        }
         if (each[0] == "Standard")
         {
-            Room room = new StandardRoom(roomNumber, each[2], Convert.ToDouble(each[3]), temA);
+            Room room = new StandardRoom(roomNumber, each[2], Convert.ToDouble(each[3]), false);
             roomList.Add(room);
         }
         else if (each[0] == "Deluxe")
         {
-            Room room = new DeluxeRoom(roomNumber, each[2], Convert.ToDouble(each[3]), temA);
+            Room room = new DeluxeRoom(roomNumber, each[2], Convert.ToDouble(each[3]), false);
             roomList.Add(room);
         }
     }
@@ -84,23 +107,24 @@ void DisplayGuests(List<Guest> guestList)
 
 void DisplayAvailRoom(List<Room> roomList)
 {
+    Console.WriteLine("{0,-17}{1,-23}{2}", "Room Number", "Bed Configuration", "Daily Rate");
     foreach (Room room in roomList)
     {
         if (room.IsAvail == true)
         {
-            Console.WriteLine("{0}{1}{2}",room.RoomNumber, room.BedConfiguration, room.DailyRate);
+            Console.WriteLine("{0,-17}{1,-23}{2}", room.RoomNumber, room.BedConfiguration, room.DailyRate);
         }
     }
 }
 
 CreateGuests(guestList);
 CreateStay(stayList, guestList);
+CreateRoom(roomList);
+AddRoom(guestList, roomList);
 DisplayGuests(guestList);
-CreateRoom(roomList, guestList);
+
 DisplayAvailRoom(roomList);
 
-foreach (Room r in roomList)
-{
-    Console.WriteLine(r.IsAvail);
-}
+
+
 
