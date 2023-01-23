@@ -152,14 +152,14 @@ void DisplayStay(List<Guest> guestList)
         {
             Console.Write("Enter Guest Name: ");
             string? search = Console.ReadLine();
-            if (SearchGuest(guestList, search) == null)
+            if (SearchGuestName(guestList, search) == null)
             {
                 Console.WriteLine("Guest Not Found. Please Try Again!");
                 Console.WriteLine("");
             }
             else
             {
-                Guest foundguest = SearchGuest(guestList, search);
+                Guest foundguest = SearchGuestName(guestList, search);
                 Console.WriteLine();
             }
         }
