@@ -112,7 +112,7 @@ void AddRoom(List<Guest> guestList, List<Room> roomList)
 void CreateRoom(List<Room> roomList)
 {
     string[] roomLine = File.ReadAllLines("Rooms.csv");
-    for(int i = 1; i < roomLine.Length; i++)
+    for (int i = 1; i < roomLine.Length; i++)
     {
         string[] each = roomLine[i].Split(',');
         int roomNumber = Convert.ToInt32(each[1]);
@@ -134,9 +134,11 @@ void DisplayGuests(List<Guest> guestList)
     Console.WriteLine("");
     Console.WriteLine("Hotel Guests: ");
     Console.WriteLine("");
+    Console.WriteLine("{0,-10} {1,-18} {2,-19} {3,-20} {4,0}",
+            "Name", "Passport Number", "Membership Status", "Membership Points", "IsCheckedIn");
     foreach (Guest guest in guestList)
     {
-        Console.WriteLine("Name: {0,-7}   Passport Number: {1,-9}   Membership Status: {2,-8}   Membership Points: {3,-5}   IsCheckedIn: {4,0}",
+        Console.WriteLine("{0,-13} {1,-19} {2,-22} {3,-16} {4,0}",
             guest.Name, guest.PassportNum, guest.Member.Status, guest.Member.Points, guest.IsCheckedIn);
     }
     Console.WriteLine("");
@@ -157,12 +159,12 @@ void DisplayAvailRoom(List<Room> roomList)
 void DisplayStay(List<Guest> guestList)
 {
     Console.WriteLine("Guest List:");
-    foreach(Guest guest in guestList)
+    foreach (Guest guest in guestList)
     {
         Console.WriteLine(guest.Name);
     }
     Console.WriteLine("");
-    while(true)
+    while (true)
     {
         try
         {
@@ -179,7 +181,7 @@ void DisplayStay(List<Guest> guestList)
                 Console.WriteLine();
             }
         }
-        catch(FormatException)
+        catch (FormatException)
         {
             Console.WriteLine("Invalid Input! Please Enter A Guest Name!");
         }
@@ -212,29 +214,57 @@ bool SearchGuestPass(List<Guest> guestList, string search)
 
 void RegisterGuest(List<Guest> guestList)
 {
-    Console.Write("Enter Name: ");
-    string? guestname = Console.ReadLine();
-    Console.Write("Enter Passport Number: ");
-    string? guestpass = Console.ReadLine();
-
+    while (true)
+    {
+        try
+        {
+            Console.Write("Enter Name: ");
+            string? guestname = Console.ReadLine();
+            Console.Write("Enter Passport Number: ");
+            string? guestpass = Console.ReadLine();
+            if (SearchGuestPass(guestList, guestpass) == true)
+            {
+                Console.WriteLine("The guest you have entered has already been registered!");
+            }
+            else
+            {
+                Membership newmember = new Membership("Ordinary", 0);
+                Guest newguest = new Guest(guestname, guestpass, null, newmember);
+                newguest.IsCheckedIn = false;
+                guestList.Add(newguest);
+                string data = guestname + "," + guestpass + "," + newguest.Member.Status + "," + Convert.ToString(newguest.Member.Points);
+                using (StreamWriter sw = new StreamWriter("Guests.csv", true))
+                {
+                    sw.WriteLine(data);
+                }
+                Console.WriteLine("Guest Registered!");
+                Console.WriteLine("Name: {0,-9} Passport Number: {1,-9}  Membership Status: {2,-9}  Membership Points: {3,-5}  IsCheckedIn: {4,0}",
+                    newguest.Name, newguest.PassportNum, newguest.Member.Status, newguest.Member.Points, newguest.IsCheckedIn);
+                break;
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid Input! Please Enter Words!");
+        }
+    }
 }
 
 CreateGuests(guestList);
 CreateStay(stayList, guestList);
 CreateRoom(roomList);
 AddRoom(guestList, roomList);
-DisplayGuests(guestList);
 
-DisplayAvailRoom(roomList);
+//DisplayAvailRoom(roomList);
 
-foreach (Guest g in guestList)
-{
-    Console.WriteLine(g.Name);
-    foreach (Room r in g.HotelStay.RoomList)
-    {
-        Console.WriteLine(r);
-    }
-}
+//foreach (Guest g in guestList)
+//{
+//    Console.WriteLine(g.Name);
+//    foreach (Room r in g.HotelStay.RoomList)
+//    {
+//        Console.WriteLine(r);
+//    }
+//}
 
 while (true)
 {
@@ -254,7 +284,7 @@ while (true)
     }
     if (option == 3)
     {
-
+        RegisterGuest(guestList);
     }
 }
 
