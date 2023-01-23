@@ -2,6 +2,7 @@
 
 List<Guest> guestList = new List<Guest>();
 List<Room> roomList = new List<Room>();
+List<Stay> stayList = new List<Stay>();
 
 void CreateGuests(List<Guest> guestList)
 {
@@ -10,19 +11,29 @@ void CreateGuests(List<Guest> guestList)
     {
         string[] each = guestLine[i].Split(',');
         string[] stayLine = File.ReadAllLines("Stays.csv");
-        for (int j = 1; j < stayLine.Length; j++)
+        Membership tempMember = new Membership(each[2], Convert.ToInt32(each[3]));
+        Guest guest = new Guest(each[0], each[1], null, tempMember);
+        guestList.Add(guest);
+           
+    }
+}
+
+void CreateStay(List<Stay> stayList, List<Guest> guestList)
+{
+    string[] stayLine = File.ReadAllLines("Stays.csv");
+    for (int i = 1; i < stayLine.Length; i++)
+    {
+        string[] each = stayLine[i].Split(",");
+        Stay tempStay = new Stay(Convert.ToDateTime(each[3]), Convert.ToDateTime(each[4]));
+        stayList.Add(tempStay);
+        foreach (Guest g in guestList)
         {
-            string[] each2 = stayLine[j].Split(",");
-            // match the passport num to identify the guest
-            if (each2[1] == each[1])
+            if (g.PassportNum == each[1])
             {
-                Stay tempStay= new Stay(Convert.ToDateTime(each2[3]), Convert.ToDateTime(each2[4]));
-                Membership tempMember = new Membership(each[2], Convert.ToInt32(each[3]));
-                Guest guest = new Guest(each[0], each[1], tempStay, tempMember);
-                guest.IsCheckedIn = Convert.ToBoolean(each2[2]);
-                guestList.Add(guest);
+                g.HotelStay = tempStay;
+                g.IsCheckedIn = Convert.ToBoolean(each[2]);
+                break;
             }
-            
         }
     }
 }
@@ -71,16 +82,25 @@ void DisplayGuests(List<Guest> guestList)
     }
 }
 
-void DisplayRoom(List<Room> roomList)
+void DisplayAvailRoom(List<Room> roomList)
 {
     foreach (Room room in roomList)
     {
-        Console.WriteLine(room.IsAvail);
+        if (room.IsAvail == true)
+        {
+            Console.WriteLine("{0}{1}{2}",room.RoomNumber, room.BedConfiguration, room.DailyRate);
+        }
     }
 }
 
 CreateGuests(guestList);
+CreateStay(stayList, guestList);
 DisplayGuests(guestList);
 CreateRoom(roomList, guestList);
-DisplayRoom(roomList);
+DisplayAvailRoom(roomList);
+
+foreach (Room r in roomList)
+{
+    Console.WriteLine(r.IsAvail);
+}
 
