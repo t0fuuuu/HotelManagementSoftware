@@ -9,9 +9,9 @@ int DisplayMenu()
     Console.WriteLine("---Hotel Management System---");
     Console.WriteLine("[1] Display Hotel Guests");
     Console.WriteLine("[2] Display Available Rooms");
-    Console.WriteLine("[3] Display Guest Stay Details");
-    Console.WriteLine("[4] Register New Hotel Guest");
-    Console.WriteLine("[5] Check in Guest");
+    Console.WriteLine("[3] Register New Hotel Guest");
+    Console.WriteLine("[4] Check in Guest");
+    Console.WriteLine("[5] Display Guest Stay Details");
     Console.WriteLine("[6] Extend Number of Stays");
     Console.WriteLine("[0] Exit");
     Console.WriteLine("-----------------------------");
@@ -115,11 +115,15 @@ void CreateRoom(List<Room> roomList)
 
 void DisplayGuests(List<Guest> guestList)
 {
-    foreach (Guest guest in guestList) 
+    Console.WriteLine("");
+    Console.WriteLine("Hotel Guests: ");
+    Console.WriteLine("");
+    foreach (Guest guest in guestList)
     {
         Console.WriteLine("Name: {0,-7}   Passport Number: {1,-9}   Membership Status: {2,-8}   Membership Points: {3,-5}   IsCheckedIn: {4,0}",
             guest.Name, guest.PassportNum, guest.Member.Status, guest.Member.Points, guest.IsCheckedIn);
     }
+    Console.WriteLine("");
 }
 
 void DisplayAvailRoom(List<Room> roomList)
@@ -166,7 +170,7 @@ void DisplayStay(List<Guest> guestList)
     }
 }
 
-Guest SearchGuest(List<Guest> guestList, string search)
+Guest SearchGuestName(List<Guest> guestList, string search)
 {
     foreach (Guest guest in guestList)
     {
@@ -178,6 +182,27 @@ Guest SearchGuest(List<Guest> guestList, string search)
     return null;
 }
 
+bool SearchGuestPass(List<Guest> guestList, string search)
+{
+    foreach (Guest guest in guestList)
+    {
+        if (guest.PassportNum == search)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void RegisterGuest(List<Guest> guestList)
+{
+    Console.Write("Enter Name: ");
+    string? guestname = Console.ReadLine();
+    Console.Write("Enter Passport Number: ");
+    string? guestpass = Console.ReadLine();
+
+}
+
 CreateGuests(guestList);
 CreateStay(stayList, guestList);
 CreateRoom(roomList);
@@ -187,14 +212,25 @@ DisplayGuests(guestList);
 DisplayAvailRoom(roomList);
 
 
-
-while(true)
+while (true)
 {
     int option = DisplayMenu();
     if (option == 0)
     {
         Console.WriteLine("Thank you for using Hotel Management System 1.0!");
         break;
+    }
+    if (option == 1)
+    {
+        DisplayGuests(guestList);
+    }
+    if (option == 2)
+    {
+        DisplayAvailRoom(roomList);
+    }
+    if (option == 3)
+    {
+
     }
 }
 
