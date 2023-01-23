@@ -80,8 +80,10 @@ void AddRoom(List<Guest> guestList, List<Room> roomList)
                             {
                                 guest.HotelStay.AddRoom(room);
                                 if (guest.IsCheckedIn == false)
-                                room.IsAvail = true;
-                                break;
+                                {
+                                    room.IsAvail = true;
+                                    break;
+                                }
                                 
                             }
                         }
