@@ -68,17 +68,31 @@ void AddRoom(List<Guest> guestList, List<Room> roomList)
             {
                 foreach (Room room in roomList)
                 {
+                    Room temp = room;
                     if (each[j] == "")
                     {
                         break;
                     }
-                    else if (room.RoomNumber == Convert.ToInt32(each[j]))
+                    else if (temp.RoomNumber == Convert.ToInt32(each[j]))
                     {
                         foreach (Guest guest in guestList)
                         {
                             if (guest.PassportNum == each[1])
                             {
-                                guest.HotelStay.AddRoom(room);
+                                if (temp is StandardRoom)
+                                {
+                                    StandardRoom temp2 = (StandardRoom)temp;
+                                    temp2.RequireWifi = Convert.ToBoolean(each[j + 1]);
+                                    temp2.RequireBreakfast = Convert.ToBoolean(each[j + 2]);
+                                    guest.HotelStay.AddRoom(temp);
+                                }
+                                else if (temp is DeluxeRoom)
+                                {
+                                    DeluxeRoom temp2 = (DeluxeRoom)temp;
+                                    temp2.AdditionalBed = Convert.ToBoolean(each[j + 3]);
+                                    guest.HotelStay.AddRoom(temp);
+                                }
+                                
                                 if (guest.IsCheckedIn == false)
                                 {
                                     room.IsAvail = true;
@@ -213,6 +227,14 @@ DisplayGuests(guestList);
 
 DisplayAvailRoom(roomList);
 
+foreach (Guest g in guestList)
+{
+    Console.WriteLine(g.Name);
+    foreach (Room r in g.HotelStay.RoomList)
+    {
+        Console.WriteLine(r);
+    }
+}
 
 while (true)
 {
@@ -235,4 +257,5 @@ while (true)
 
     }
 }
+
 
