@@ -351,7 +351,9 @@ void CheckOutGuest(List<Guest> guestList)
             else
             {
                 Console.Write("Points to redeem: ");
-                Console.ReadLine();
+                int points = Convert.ToInt32(Console.ReadLine());
+                bool check = foundguest.Member.RedeemPoints(points);
+
             }
 
         }

@@ -27,29 +27,7 @@ namespace HotelManagementSoftware
             double total = 0;
             foreach(Room r in RoomList) 
             {
-                if (r is StandardRoom)
-                {
-                    StandardRoom sr = (StandardRoom)r;
-                    total += sr.CalculateCharges() * days;
-                    if (sr.RequireBreakfast == true)
-                    {
-                        total += 20;
-                    }
-                    if (sr.RequireWifi == true)
-                    {
-                        total += 10;
-                    }
-                    
-                }
-                else if (r is DeluxeRoom)
-                {
-                    DeluxeRoom dr = (DeluxeRoom)r;
-                    total += dr.CalculateCharges() * days;
-                    if (dr.AdditionalBed == true)
-                    {
-                        total += 25;
-                    }
-                }
+                total += days * r.CalculateCharges();
             }
             return total;
         }

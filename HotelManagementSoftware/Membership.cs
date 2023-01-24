@@ -41,14 +41,11 @@ namespace HotelManagementSoftware
         //Minus points if gold or silver and if it is possible or not
         public bool RedeemPoints(int p)
         {
-            if (Status == "Gold" || Status == "Silver")
-            {
-                if (Points >= p)
-                {
-                    Points -= p;
-                    return true;
-                }
-            }
+            if (Points >= p)
+             {
+                 Points -= p;
+                 return true;
+             }
             return false;
         }
 
