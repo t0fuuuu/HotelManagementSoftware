@@ -341,25 +341,43 @@ void CheckOutGuest(List<Guest> guestList)
             if (foundguest.Member.Status == "Ordinary" || foundguest.Member.Points < 100)
             {
                 Console.WriteLine();
-                Console.WriteLine("Insufficient Points to redeem.");
+                Console.WriteLine("Ordinary Member. Unable to Redeem");
                 Console.WriteLine();
                 Console.WriteLine("Final Bill Amount: {0,0}", amt);
                 Console.Write("Press Anywhere To Pay: ");
                 Console.ReadLine();
+                Console.WriteLine();
+                Console.WriteLine("Thank you for making payment!");
+                Console.WriteLine();
                 foundguest.Member.EarnPoints(amt);
+                foundguest.IsCheckedIn = false;
             }
             else
             {
                 Console.Write("Points to redeem: ");
                 int points = Convert.ToInt32(Console.ReadLine());
                 bool check = foundguest.Member.RedeemPoints(points);
+                if (check == true)
+                {
+                    Console.WriteLine("Final Bill Amount: ${0,0}", amt - points);
+                    Console.Write("Press Anywhere To Pay: ");
+                    Console.ReadLine();
+                    Console.WriteLine();
+                    Console.WriteLine("Thank you for making payment!");
+                    Console.WriteLine();
+                    foundguest.Member.EarnPoints(amt - points);
+                    foundguest.IsCheckedIn = false;
+                }
+                else
+                {
+                    Console.WriteLine("Insufficient Points to redeem.");
+                }
 
             }
 
         }
     }
-
-    }
+}
 
 
 
