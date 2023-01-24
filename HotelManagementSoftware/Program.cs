@@ -160,6 +160,7 @@ void DisplayAvailRoom(List<Room> roomList)
 
 void DisplayStay(List<Guest> guestList)
 {
+    Console.WriteLine("");
     Console.WriteLine("Guest List:");
     Console.WriteLine("");
     Console.WriteLine("{0,-10} {1,-18}","Name", "Passport Number");
@@ -183,8 +184,39 @@ void DisplayStay(List<Guest> guestList)
             {
                 Guest foundguest = GetGuest(guestList, searchpass);
                 Console.WriteLine("");
-                Console.WriteLine("Name: {0,0}  Passport Number: {1,0}", foundguest.Name, foundguest.PassportNum);
-                //CONTINUE!!!!!
+                Console.WriteLine("Name: {0,0}  Passport Number: {1,0}  IsCheckedIn: {2,0}", foundguest.Name, foundguest.PassportNum,foundguest.IsCheckedIn);
+                Console.WriteLine("");
+                Console.WriteLine("Stay Details:");
+                Console.WriteLine("Check-In Date: {0,0}  Check-Out Date:{1,0}");
+                Console.WriteLine("");
+                Console.WriteLine("===========================Deluxe Room Details===========================");
+                Console.WriteLine("");
+                Console.WriteLine("{0,-13} {1,-19} {2,-13} {3,-9} {4,-15}",
+                    "Room Number","Bed Configuration","Daily Rate","IsAvail","Additional Bed");
+                foreach (Room room in foundguest.HotelStay.RoomList)
+                {
+                    if (room is DeluxeRoom)
+                    {
+                        DeluxeRoom dr= (DeluxeRoom)room;
+                        Console.WriteLine("    {0,-14} {1,-18} {2,-10} {3,-11} {4,0}", dr.RoomNumber, dr.BedConfiguration, dr.DailyRate, dr.IsAvail, dr.AdditionalBed);
+                    }
+                }
+                Console.WriteLine("");
+                Console.WriteLine("==================================Standard Room Details==================================");
+                Console.WriteLine("");
+                Console.WriteLine("{0,-13} {1,-19} {2,-13} {3,-9} {4,-13} {5,-18}",
+                    "Room Number", "Bed Configuration", "Daily Rate", "IsAvail", "RequireWifi", "RequireBreakfast");
+                foreach (Room room in foundguest.HotelStay.RoomList)
+                {
+                    if (room is StandardRoom)
+                    {
+                        StandardRoom sr = (StandardRoom)room;
+                        Console.WriteLine("    {0,-14} {1,-18} {2,-10} {3,-11} {4,-15} {5,-15}",
+                            sr.RoomNumber, sr.BedConfiguration, sr.DailyRate, sr.IsAvail, sr.RequireWifi, sr.RequireBreakfast);
+                    }
+                }
+                Console.WriteLine("");
+
                 break;
             }
         }
@@ -302,26 +334,30 @@ while (true)
             else if (option == 1)
             {
                 DisplayGuests(guestList);
+                break;
             }
             else if (option == 2)
             {
                 DisplayAvailRoom(roomList);
+                break;
             }
             else if (option == 3)
             {
                 RegisterGuest(guestList);
+                break;
             }
             else if (option == 4)
             {
-
+                break;
             }
             else if (option == 5)
             {
                 DisplayStay(guestList);
+                break;
             }
             else if (option == 6)
             {
-
+                break;
             }
             else
             {
