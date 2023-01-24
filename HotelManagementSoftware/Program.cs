@@ -184,10 +184,11 @@ void DisplayStay(List<Guest> guestList)
             {
                 Guest foundguest = GetGuest(guestList, searchpass);
                 Console.WriteLine("");
+                Console.WriteLine("======================Guest Details======================");
                 Console.WriteLine("Name: {0,0}  Passport Number: {1,0}  IsCheckedIn: {2,0}", foundguest.Name, foundguest.PassportNum,foundguest.IsCheckedIn);
                 Console.WriteLine("");
-                Console.WriteLine("Stay Details:");
-                Console.WriteLine("Check-In Date: {0,0}  Check-Out Date:{1,0}");
+                Console.WriteLine("=====================Stay Details=====================");
+                Console.WriteLine("Check-In Date: {0,0}  Check-Out Date: {1,0}",foundguest.HotelStay.CheckInDate.ToString("dd/MM/yyyy"),foundguest.HotelStay.CheckOutDate.ToString("dd/MM/yyyy"));
                 Console.WriteLine("");
                 Console.WriteLine("===========================Deluxe Room Details===========================");
                 Console.WriteLine("");
