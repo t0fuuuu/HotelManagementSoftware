@@ -20,15 +20,6 @@ namespace HotelManagementSoftware
         public override double CalculateCharges()
         {
             double TotalAddOn = DailyRate;
-            if (RequireWifi)
-            {
-                TotalAddOn += 10;
-            }
-            if (RequireBreakfast) 
-            {
-                TotalAddOn += 20;
-            }
-
             return TotalAddOn;
         }
 

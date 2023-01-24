@@ -3,6 +3,8 @@
 // Student Name : Ryan Ma
 //======================================
 
+
+//METHODS//
 using HotelManagementSoftware;
 
 List<Guest> guestList = new List<Guest>();
@@ -18,9 +20,11 @@ void DisplayMenu()
     Console.WriteLine("[4] Check in Guest");
     Console.WriteLine("[5] Display Guest Stay Details");
     Console.WriteLine("[6] Extend Number of Stays");
+    Console.WriteLine("[7] Display Monthly Charges");
+    Console.WriteLine("[8] Check out Guest");
     Console.WriteLine("[0] Exit");
     Console.WriteLine("=============================");
-    Console.WriteLine("");
+    Console.WriteLine();
 }
 
 void CreateGuests(List<Guest> guestList)
@@ -133,9 +137,9 @@ void CreateRoom(List<Room> roomList)
 
 void DisplayGuests(List<Guest> guestList)
 {
-    Console.WriteLine("");
+    Console.WriteLine();
     Console.WriteLine("Hotel Guests: ");
-    Console.WriteLine("");
+    Console.WriteLine();
     Console.WriteLine("{0,-10} {1,-18} {2,-19} {3,-20} {4,0}",
             "Name", "Passport Number", "Membership Status", "Membership Points", "IsCheckedIn");
     foreach (Guest guest in guestList)
@@ -143,7 +147,7 @@ void DisplayGuests(List<Guest> guestList)
         Console.WriteLine("{0,-13} {1,-19} {2,-22} {3,-16} {4,0}",
             guest.Name, guest.PassportNum, guest.Member.Status, guest.Member.Points, guest.IsCheckedIn);
     }
-    Console.WriteLine("");
+    Console.WriteLine();
 }
 
 void DisplayAvailRoom(List<Room> roomList)
@@ -160,15 +164,15 @@ void DisplayAvailRoom(List<Room> roomList)
 
 void DisplayStay(List<Guest> guestList)
 {
-    Console.WriteLine("");
+    Console.WriteLine();
     Console.WriteLine("Guest List:");
-    Console.WriteLine("");
+    Console.WriteLine();
     Console.WriteLine("{0,-10} {1,-18}","Name", "Passport Number");
     foreach (Guest guest in guestList)
     {
         Console.WriteLine("{0,-13} {1,-19}", guest.Name, guest.PassportNum);
     }
-    Console.WriteLine("");
+    Console.WriteLine();
     while (true)
     {
         try
@@ -178,20 +182,20 @@ void DisplayStay(List<Guest> guestList)
             if (SearchGuestPass(guestList, searchpass) == false)
             {
                 Console.WriteLine("Guest Not Found. Please Try Again!");
-                Console.WriteLine("");
+                Console.WriteLine();
             }
             else
             {
                 Guest foundguest = GetGuest(guestList, searchpass);
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.WriteLine("======================Guest Details======================");
                 Console.WriteLine("Name: {0,0}  Passport Number: {1,0}  IsCheckedIn: {2,0}", foundguest.Name, foundguest.PassportNum,foundguest.IsCheckedIn);
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.WriteLine("=====================Stay Details=====================");
                 Console.WriteLine("Check-In Date: {0,0}  Check-Out Date: {1,0}",foundguest.HotelStay.CheckInDate.ToString("dd/MM/yyyy"),foundguest.HotelStay.CheckOutDate.ToString("dd/MM/yyyy"));
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.WriteLine("===========================Deluxe Room Details===========================");
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.WriteLine("{0,-13} {1,-19} {2,-13} {3,-9} {4,-15}",
                     "Room Number","Bed Configuration","Daily Rate","IsAvail","Additional Bed");
                 foreach (Room room in foundguest.HotelStay.RoomList)
@@ -202,9 +206,9 @@ void DisplayStay(List<Guest> guestList)
                         Console.WriteLine("    {0,-14} {1,-18} {2,-10} {3,-11} {4,0}", dr.RoomNumber, dr.BedConfiguration, dr.DailyRate, dr.IsAvail, dr.AdditionalBed);
                     }
                 }
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.WriteLine("==================================Standard Room Details==================================");
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.WriteLine("{0,-13} {1,-19} {2,-13} {3,-9} {4,-13} {5,-18}",
                     "Room Number", "Bed Configuration", "Daily Rate", "IsAvail", "RequireWifi", "RequireBreakfast");
                 foreach (Room room in foundguest.HotelStay.RoomList)
@@ -216,7 +220,7 @@ void DisplayStay(List<Guest> guestList)
                             sr.RoomNumber, sr.BedConfiguration, sr.DailyRate, sr.IsAvail, sr.RequireWifi, sr.RequireBreakfast);
                     }
                 }
-                Console.WriteLine("");
+                Console.WriteLine();
 
                 break;
             }
@@ -287,11 +291,11 @@ void RegisterGuest(List<Guest> guestList)
                 {
                     sw.WriteLine(data);
                 }
-                Console.WriteLine("");
+                Console.WriteLine();
                 Console.WriteLine("Guest Registered!");
                 Console.WriteLine("Name: {0,-9} Passport Number: {1,-9}  Membership Status: {2,-9}  Membership Points: {3,-5}  IsCheckedIn: {4,0}",
                     newguest.Name, newguest.PassportNum, newguest.Member.Status, newguest.Member.Points, newguest.IsCheckedIn);
-                Console.WriteLine("");
+                Console.WriteLine();
                 break;
             }
         }
@@ -302,21 +306,52 @@ void RegisterGuest(List<Guest> guestList)
     }
 }
 
+void CheckOutGuest(List<Guest> guestList)
+{
+    Console.WriteLine();
+    Console.WriteLine("{0,-10} {1,-18} {2,-19}",
+            "Name", "Passport Number","IsCheckedIn");
+    foreach (Guest guest in guestList)
+    {
+        Console.WriteLine("{0,-13} {1,-19} {2,-22}",
+            guest.Name, guest.PassportNum, guest.IsCheckedIn);
+    }
+    Console.WriteLine("");
+    Console.Write("Enter Passport Number: ");
+    string? guestpass = Console.ReadLine();
+    bool results = SearchGuestPass(guestList, guestpass);
+    if (results == false)
+    {
+        Console.WriteLine("Guest Not Found. Please Try Again!");
+        Console.WriteLine();
+    }
+    else if (results == true)
+    {
+        Guest foundguest = GetGuest(guestList, guestpass);
+        if (foundguest.IsCheckedIn == false)
+        {
+            Console.WriteLine("Guest has already checked out!");
+        }
+        else
+        {
+            Console.WriteLine("Bill Amount: ${0,0}", foundguest.HotelStay.CalculateTotal());
+            Console.WriteLine();
+            Console.WriteLine("Membership Status: {0,0}  Membership Points: {1,0}",foundguest.Member.Status,foundguest.Member.Points);
+
+        }
+    }
+
+    }
+
+
+
+
+//MAIN PROGRAM//
+
 CreateGuests(guestList);
 CreateStay(stayList, guestList);
 CreateRoom(roomList);
 AddRoom(guestList, roomList);
-
-//DisplayAvailRoom(roomList);
-
-//foreach (Guest g in guestList)
-//{
-//    Console.WriteLine(g.Name);
-//    foreach (Room r in g.HotelStay.RoomList)
-//    {
-//        Console.WriteLine(r);
-//    }
-//}
 
 while (true)
 {
@@ -358,6 +393,15 @@ while (true)
             }
             else if (option == 6)
             {
+                break;
+            }
+            else if (option == 7)
+            {
+
+            }
+            else if (option == 8)
+            {
+                CheckOutGuest(guestList);
                 break;
             }
             else

@@ -18,11 +18,6 @@ namespace HotelManagementSoftware
         public override double CalculateCharges()
         {
             double TotalAddOn = DailyRate;
-            if (AdditionalBed)
-            {
-                TotalAddOn += 25;
-            }
-
             return TotalAddOn;
         }
 
