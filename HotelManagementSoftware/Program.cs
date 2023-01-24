@@ -334,9 +334,21 @@ void CheckOutGuest(List<Guest> guestList)
         }
         else
         {
-            Console.WriteLine("Bill Amount: ${0,0}", foundguest.HotelStay.CalculateTotal());
+            double amt = foundguest.HotelStay.CalculateTotal() * 1.0;
+            Console.WriteLine("Bill Amount: ${0,0}", amt);
             Console.WriteLine();
             Console.WriteLine("Membership Status: {0,0}  Membership Points: {1,0}",foundguest.Member.Status,foundguest.Member.Points);
+            if (foundguest.Member.Status == "Ordinary" || foundguest.Member.Points < 100)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Insufficient Points to redeem.");
+                Console.WriteLine();
+                Console.WriteLine("Final Bill Amount: {0,0}", amt);
+            }
+            else
+            {
+
+            }
 
         }
     }
