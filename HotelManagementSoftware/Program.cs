@@ -344,10 +344,14 @@ void CheckOutGuest(List<Guest> guestList)
                 Console.WriteLine("Insufficient Points to redeem.");
                 Console.WriteLine();
                 Console.WriteLine("Final Bill Amount: {0,0}", amt);
+                Console.Write("Press Anywhere To Pay: ");
+                Console.ReadLine();
+                foundguest.Member.EarnPoints(amt);
             }
             else
             {
-
+                Console.Write("Points to redeem: ");
+                Console.ReadLine();
             }
 
         }

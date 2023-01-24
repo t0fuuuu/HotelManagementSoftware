@@ -21,7 +21,8 @@ namespace HotelManagementSoftware
         // Add points based off the final amt paid and change the status respectively
         public void EarnPoints(double amt)
         {
-            Points += (int)(amt / 10);
+            int change = Convert.ToInt32(amt);
+            Points = Points + (change / 10);
 
             if (Points >= 100)
             {
