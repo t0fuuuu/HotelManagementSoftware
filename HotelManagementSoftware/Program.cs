@@ -140,7 +140,6 @@ void DisplayGuests(List<Guest> guestList)
 {
     Console.WriteLine();
     Console.WriteLine("Hotel Guests: ");
-    Console.WriteLine();
     Console.WriteLine("{0,-10} {1,-18} {2,-19} {3,-20} {4,0}",
             "Name", "Passport Number", "Membership Status", "Membership Points", "IsCheckedIn");
     foreach (Guest guest in guestList)
@@ -148,7 +147,6 @@ void DisplayGuests(List<Guest> guestList)
         Console.WriteLine("{0,-13} {1,-19} {2,-22} {3,-16} {4,0}",
             guest.Name, guest.PassportNum, guest.Member.Status, guest.Member.Points, guest.IsCheckedIn);
     }
-    Console.WriteLine();
 }
 
 //2
@@ -602,7 +600,6 @@ AddRoom(guestList, roomList);
 while (true)
 {
     DisplayMenu();
-    Console.WriteLine();
     try
     {
         Console.Write("Enter your option: ");
@@ -610,36 +607,30 @@ while (true)
         if (option == 0)
         {
             Console.WriteLine("Thank you for using Hotel Management System! Have a Nice Day!");
-            break;
         }
         else if (option == 1)
         {
             DisplayGuests(guestList);
-            break;
         }
         else if (option == 2)
         {
             DisplayAvailRoom(roomList);
-            break;
         }
         else if (option == 3)
         {
             RegisterGuest(guestList);
-            break;
         }
         else if (option == 4)
         {
             CheckInGuest(guestList, stayList, roomList);
-            break;
         }
         else if (option == 5)
         {
             DisplayStay(guestList);
-            break;
         }
         else if (option == 6)
         {
-            break;
+
         }
         else if (option == 7)
         {
@@ -648,7 +639,6 @@ while (true)
         else if (option == 8)
         {
             CheckOutGuest(guestList);
-            break;
         }
         else
         {
