@@ -168,7 +168,7 @@ void DisplayAvailRoom(List<Room> roomList)
         }
     }
 }
-
+//5
 void DisplayStay(List<Guest> guestList)
 {
     Console.WriteLine();
@@ -513,6 +513,61 @@ void CheckInGuest(List<Guest> guestlist, List<Stay> stayList, List<Room> roomLis
     Console.WriteLine("Check In Succesful\nEnjoy Your Stay!");    
 }
 
+//6
+void ExtendStay(List<Guest> guestList)
+{
+    DisplayGuests(guestList);
+    Console.WriteLine();
+    Guest guestChosen = null;
+    while (true)
+    {
+        Console.Write("Enter Passport Number: "); //retrieve guests based on their passport num
+        string ppnum = Console.ReadLine();
+        bool check = false;
+        foreach (Guest guest in guestList)
+        {
+            if (guest.PassportNum == ppnum)
+            {
+                guestChosen = guest;
+                check = true;
+                break;
+            }
+        }
+        if (check == false)
+        {
+            Console.WriteLine("Guest Not Found. Please Try Again!");
+            continue;
+        }
+        else if (guestChosen.IsCheckedIn == false)
+        {
+            Console.WriteLine("Guest is Not Checked In. You Must Check In Before Extending Your Stay!");
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
+    while (true)
+    {
+        try
+        {
+            Console.Write("Enter Number of Days to Extend Stay: ");
+            int days = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine(guestChosen.HotelStay.CheckOutDate);
+            guestChosen.HotelStay.CheckOutDate=guestChosen.HotelStay.CheckOutDate.AddDays(days);
+            Console.WriteLine("Check Out Date Extended By {0} days!\nCheck Out Date: {1}", days,
+            guestChosen.HotelStay.CheckOutDate.ToString("dd/MM/yyyy"));
+            break;
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Enter a Valid Number!");
+        }
+    }
+
+}
+
 void CheckOutGuest(List<Guest> guestList)
 {
     Console.WriteLine();
@@ -587,8 +642,6 @@ void CheckOutGuest(List<Guest> guestList)
 }
 
 
-
-
 //MAIN PROGRAM//
 
 CreateGuests(guestList);
@@ -630,7 +683,7 @@ while (true)
         }
         else if (option == 6)
         {
-
+            ExtendStay(guestList);
         }
         else if (option == 7)
         {
