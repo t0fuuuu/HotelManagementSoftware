@@ -135,6 +135,7 @@ void CreateRoom(List<Room> roomList)
     }
 }
 
+//1
 void DisplayGuests(List<Guest> guestList)
 {
     Console.WriteLine();
@@ -150,14 +151,22 @@ void DisplayGuests(List<Guest> guestList)
     Console.WriteLine();
 }
 
+//2
 void DisplayAvailRoom(List<Room> roomList)
 {
-    Console.WriteLine("{0,-17}{1,-23}{2}", "Room Number", "Bed Configuration", "Daily Rate");
+    Console.WriteLine("{0,-12}{1,-17}{2,-23}{3}","Room Type", "Room Number", "Bed Configuration", "Daily Rate");
     foreach (Room room in roomList)
     {
         if (room.IsAvail == true)
         {
-            Console.WriteLine("{0,-17}{1,-23}{2}", room.RoomNumber, room.BedConfiguration, room.DailyRate);
+            if (room is StandardRoom)
+            {
+                Console.WriteLine("{0,-12}{1,-17}{2,-23}{3}", "Standard", room.RoomNumber, room.BedConfiguration, room.DailyRate);
+            }
+            else if (room is DeluxeRoom)
+            {
+                Console.WriteLine("{0,-12}{1,-17}{2,-23}{3}", "Deluxe", room.RoomNumber, room.BedConfiguration, room.DailyRate);
+            }
         }
     }
 }
@@ -256,6 +265,7 @@ bool SearchGuestPass(List<Guest> guestList, string search)
     return false;
 }
 
+//3
 void RegisterGuest(List<Guest> guestList)
 {
     while (true)
@@ -304,6 +314,205 @@ void RegisterGuest(List<Guest> guestList)
             Console.WriteLine("Invalid Input! Please Enter Words!");
         }
     }
+}
+
+void CheckInRooms(Stay stay)
+{
+    while (true)
+    {
+        try
+        {
+            Console.Write("Enter Room Number: "); //uses room number to select room
+            int roomNum = Convert.ToInt32(Console.ReadLine());
+            Room roomChosen = null;
+            bool check2 = false;
+            foreach (Room room in roomList)
+            {
+                if (room.IsAvail == true && room.RoomNumber == roomNum)
+                {
+                    roomChosen = room;
+                    check2 = true;
+                    break;
+                }
+
+            }
+            if (check2 == false)
+            {
+                Console.WriteLine("Room Number Not Available/ Does Not Exist!");
+                continue;
+            }
+            if (roomChosen is StandardRoom)
+            {
+                StandardRoom roomChosen2 = (StandardRoom)roomChosen;
+                string wifi = null;
+                string breakfast = null;
+                while (true)
+                {
+                    Console.Write("Is Wifi Required [Y/N]: ");
+                    wifi = Console.ReadLine();
+                    if (wifi == "Y" || wifi == "N")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please Enter A Valid Option!");
+                    }
+                }
+                while (true)
+                {
+                    Console.Write("Is Breakfast Required [Y/N]: ");
+                    breakfast = Console.ReadLine();
+                    if (breakfast == "Y" || breakfast == "N")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please Enter A Valid Option!");
+                    }
+                }
+                if (wifi == "Y")
+                {
+                    roomChosen2.RequireWifi = true;
+                }
+                else
+                {
+                    roomChosen2.RequireWifi = false;
+                }
+                if (breakfast == "Y")
+                {
+                    roomChosen2.RequireBreakfast = true;
+                }
+                else
+                {
+                    roomChosen2.RequireBreakfast = false;
+                }
+                roomChosen2.IsAvail = false;
+                stay.RoomList.Add(roomChosen2);
+
+            }
+            else if (roomChosen is DeluxeRoom)
+            {
+                DeluxeRoom roomChosen2 = (DeluxeRoom)roomChosen;
+                string bed = null;
+                while (true)
+                {
+                    Console.Write("Is Additional Bed Required [Y/N]: ");
+                    bed = Console.ReadLine();
+                    if (bed == "Y" || bed == "N")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please Enter A Valid Option!");
+                    }
+                }
+                if (bed == "Y")
+                {
+                    roomChosen2.AdditionalBed = true;
+                }
+                else
+                {
+                    roomChosen2.AdditionalBed = false;
+                }
+                roomChosen2.IsAvail = false;
+                stay.RoomList.Add(roomChosen2);
+            }
+            break;
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Please Enter A Valid Option!");
+            continue;
+        }
+    }
+}
+
+//4
+void CheckInGuest(List<Guest> guestlist, List<Stay> stayList, List<Room> roomList)
+{
+    DisplayGuests(guestlist);
+    Console.WriteLine();
+    Guest guestChosen = null;
+    while (true)
+    {
+        Console.Write("Enter Passport Number: "); //retrieve guests based on their passport num
+        string ppnum = Console.ReadLine();
+        bool check = false;
+        foreach (Guest guest in guestlist)
+        {
+            if (guest.PassportNum == ppnum)
+            {
+                guestChosen = guest;
+                check = true;
+                break;
+            }
+        }
+        if (check == false)
+        {
+            Console.WriteLine("Guest Not Found. Please Try Again!");
+            continue;
+        }
+        else if (guestChosen.IsCheckedIn == true)
+        {
+            Console.WriteLine("Guest is Already Checked In. You Can Extend Your Stay Instead!");
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
+    Stay stay = null;
+    while (true)
+    {
+        try
+        {
+            Console.Write("Enter Check In Date: ");
+            DateTime checkIn = Convert.ToDateTime(Console.ReadLine());
+            Console.Write("Enter Check Out Date: ");
+            DateTime checkOut = Convert.ToDateTime(Console.ReadLine());
+            stay = new Stay(checkIn, checkOut);
+            break;
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Enter A Valid Date!");
+        }
+    }
+    Console.WriteLine();
+
+    DisplayAvailRoom(roomList);
+    bool choosingRoom = true;
+    do
+    {
+        CheckInRooms(stay);
+        string ans = null;
+        while (true)
+        {
+            Console.Write("Do You Want To Select Another Room [Y/N]: ");
+            ans = Console.ReadLine();
+            if (ans == "Y" || ans == "N")
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Please Enter A Valid Option!");
+                continue;
+            }
+        }
+        if (ans == "N")
+        {
+            choosingRoom = false;
+        }
+    }
+    while (choosingRoom);
+    guestChosen.HotelStay = stay;
+    guestChosen.IsCheckedIn = true;
+    Console.WriteLine("Check In Succesful\nEnjoy Your Stay!");    
 }
 
 void CheckOutGuest(List<Guest> guestList)
@@ -389,67 +598,69 @@ CreateStay(stayList, guestList);
 CreateRoom(roomList);
 AddRoom(guestList, roomList);
 
+
 while (true)
 {
     DisplayMenu();
-    while (true)
+    Console.WriteLine();
+    try
     {
-        try
+        Console.Write("Enter your option: ");
+        int option = Convert.ToInt32(Console.ReadLine());
+        if (option == 0)
         {
-            Console.Write("Enter your option: ");
-            int option = Convert.ToInt32(Console.ReadLine());
-            if (option == 0)
-            {
-                Console.WriteLine("Thank you for using Hotel Management System! Have a Nice Day!");
-                break;
-            }
-            else if (option == 1)
-            {
-                DisplayGuests(guestList);
-                break;
-            }
-            else if (option == 2)
-            {
-                DisplayAvailRoom(roomList);
-                break;
-            }
-            else if (option == 3)
-            {
-                RegisterGuest(guestList);
-                break;
-            }
-            else if (option == 4)
-            {
-                break;
-            }
-            else if (option == 5)
-            {
-                DisplayStay(guestList);
-                break;
-            }
-            else if (option == 6)
-            {
-                break;
-            }
-            else if (option == 7)
-            {
+            Console.WriteLine("Thank you for using Hotel Management System! Have a Nice Day!");
+            break;
+        }
+        else if (option == 1)
+        {
+            DisplayGuests(guestList);
+            break;
+        }
+        else if (option == 2)
+        {
+            DisplayAvailRoom(roomList);
+            break;
+        }
+        else if (option == 3)
+        {
+            RegisterGuest(guestList);
+            break;
+        }
+        else if (option == 4)
+        {
+            CheckInGuest(guestList, stayList, roomList);
+            break;
+        }
+        else if (option == 5)
+        {
+            DisplayStay(guestList);
+            break;
+        }
+        else if (option == 6)
+        {
+            break;
+        }
+        else if (option == 7)
+        {
 
-            }
-            else if (option == 8)
-            {
-                CheckOutGuest(guestList);
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Please Enter A Valid Option!");
-            }
         }
-        catch (FormatException)
+        else if (option == 8)
         {
-            Console.WriteLine("Please Enter A Valid Option! (0 to 6)");
+            CheckOutGuest(guestList);
+            break;
         }
+        else
+        {
+            Console.WriteLine("Please Enter A Valid Option!");
+        }
+        Console.WriteLine();
+    }
+    catch (FormatException)
+    {
+        Console.WriteLine("Please Enter A Valid Option! (0 to 6)");
     }
 }
+
 
 
