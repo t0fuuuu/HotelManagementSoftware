@@ -547,7 +547,7 @@ void CheckOutGuest(List<Guest> guestList)
             Console.WriteLine("Bill Amount: ${0,0}", amt);
             Console.WriteLine();
             Console.WriteLine("Membership Status: {0,0}  Membership Points: {1,0}",foundguest.Member.Status,foundguest.Member.Points);
-            if (foundguest.Member.Status == "Ordinary" || foundguest.Member.Points < 100)
+            if (foundguest.Member.Status == "Ordinary")
             {
                 Console.WriteLine();
                 Console.WriteLine("Ordinary Member. Unable to Redeem");
