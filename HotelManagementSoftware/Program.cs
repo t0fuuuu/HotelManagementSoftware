@@ -472,8 +472,19 @@ void CheckInGuest(List<Guest> guestlist, List<Stay> stayList, List<Room> roomLis
             DateTime checkIn = Convert.ToDateTime(Console.ReadLine());
             Console.Write("Enter Check Out Date: ");
             DateTime checkOut = Convert.ToDateTime(Console.ReadLine());
-            stay = new Stay(checkIn, checkOut);
-            break;
+            if (checkOut <= checkIn)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Check In Date Must Be Before Check Out Date!");
+                Console.WriteLine("Try Again!");
+                Console.WriteLine();
+                continue;
+            }
+            else
+            {
+                stay = new Stay(checkIn, checkOut);
+                break;
+            }
         }
         catch (FormatException)
         {
