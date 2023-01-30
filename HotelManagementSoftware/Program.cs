@@ -685,64 +685,86 @@ void CheckOutGuest(List<Guest> guestList)
             guest.Name, guest.PassportNum, guest.IsCheckedIn);
     }
     Console.WriteLine("");
-    Console.Write("Enter Passport Number: ");
-    string? guestpass = Console.ReadLine();
-    bool results = SearchGuestPass(guestList, guestpass);
-    if (results == false)
+    while(true)
     {
-        Console.WriteLine("Guest Not Found. Please Try Again!");
-        Console.WriteLine();
-    }
-    else if (results == true)
-    {
-        Guest foundguest = GetGuest(guestList, guestpass);
-        if (foundguest.IsCheckedIn == false)
+        Console.Write("Enter Passport Number: ");
+        string? guestpass = Console.ReadLine();
+        bool results = SearchGuestPass(guestList, guestpass);
+        if (results == false)
         {
-            Console.WriteLine("Guest has already checked out!");
-        }
-        else
-        {
-            double amt = foundguest.HotelStay.CalculateTotal() * 1.0;
-            Console.WriteLine("Bill Amount: ${0,0}", amt);
+            Console.WriteLine("Guest Not Found. Please Try Again!");
             Console.WriteLine();
-            Console.WriteLine("Membership Status: {0,0}  Membership Points: {1,0}",foundguest.Member.Status,foundguest.Member.Points);
-            if (foundguest.Member.Status == "Ordinary")
+        }
+        else if (results == true)
+        {
+            Guest foundguest = GetGuest(guestList, guestpass);
+            if (foundguest.IsCheckedIn == false)
             {
-                Console.WriteLine();
-                Console.WriteLine("Ordinary Member. Unable to Redeem");
-                Console.WriteLine();
-                Console.WriteLine("Final Bill Amount: {0,0}", amt);
-                Console.Write("Press Anywhere To Pay: ");
-                Console.ReadLine();
-                Console.WriteLine();
-                Console.WriteLine("Thank you for making payment!");
-                Console.WriteLine();
-                foundguest.Member.EarnPoints(amt);
-                foundguest.IsCheckedIn = false;
+                Console.WriteLine("Guest has already checked out!");
             }
             else
             {
-                Console.Write("Points to redeem: ");
-                int points = Convert.ToInt32(Console.ReadLine());
-                bool check = foundguest.Member.RedeemPoints(points);
-                if (check == true)
+                double amt = foundguest.HotelStay.CalculateTotal() * 1.0;
+                Console.WriteLine("Bill Amount: ${0,0}", amt);
+                Console.WriteLine();
+                Console.WriteLine("Membership Status: {0,0}  Membership Points: {1,0}", foundguest.Member.Status, foundguest.Member.Points);
+                if (foundguest.Member.Status == "Ordinary")
                 {
-                    Console.WriteLine("Final Bill Amount: ${0,0}", amt - points);
+                    Console.WriteLine();
+                    Console.WriteLine("Ordinary Member. Unable to Redeem");
+                    Console.WriteLine();
+                    Console.WriteLine("Final Bill Amount: {0,0}", amt);
                     Console.Write("Press Anywhere To Pay: ");
                     Console.ReadLine();
                     Console.WriteLine();
                     Console.WriteLine("Thank you for making payment!");
                     Console.WriteLine();
-                    foundguest.Member.EarnPoints(amt - points);
+                    foundguest.Member.EarnPoints(amt);
                     foundguest.IsCheckedIn = false;
+                    break;
                 }
                 else
                 {
-                    Console.WriteLine("Insufficient Points to redeem.");
+                    do
+                    {
+                        int points = 0;
+                        while (true)
+                        {
+                            try
+                            {
+                                Console.Write("Points to redeem: ");
+                                points = Convert.ToInt32(Console.ReadLine());
+                                break;
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Enter a number!");
+                            }
+                        }
+                        bool check = foundguest.Member.RedeemPoints(points);
+                        if (check == true)
+                        {
+                            Console.WriteLine("Final Bill Amount: ${0,0}", amt - points);
+                            Console.Write("Press Anywhere To Pay: ");
+                            Console.ReadLine();
+                            Console.WriteLine();
+                            Console.WriteLine("Thank you for making payment!");
+                            Console.WriteLine();
+                            foundguest.Member.EarnPoints(amt - points);
+                            foundguest.IsCheckedIn = false;
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Insufficient Points to redeem.");
+                            continue;
+                        }
+                    } while (true);
+
+
                 }
 
             }
-
         }
     }
 }
