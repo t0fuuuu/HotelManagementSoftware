@@ -24,40 +24,53 @@ namespace HotelManagementSoftware
             int change = Convert.ToInt32(amt);
             Points = Points + (change / 10);
 
-            if (Points >= 200)
+            if (Status == "Ordinary")
             {
-                Status = "Gold";
+                if (Points >= 200)
+                {
+                    Status = "Gold";
+                }
+                else if (Points >= 100)
+                {
+                    Status = "Silver";
+                }
             }
-            else if (Points >= 100)
+            else if (Status == "Silver")
             {
-                Status = "Silver";
-            }
-            else
-            {
-                Status = "Ordinary";
+                if (Points >= 200)
+                {
+                    Status = "Gold";
+                }
             }
         }
-        
+
         //Minus points if gold or silver and if it is possible or not
         public bool RedeemPoints(int p)
         {
             if (Points >= p)
-             {
-                 Points -= p;
-                 return true;
-             }
-            if (Points >= 200)
             {
-                Status = "Gold";
+                Points -= p;
+                return true;
             }
-            else if (Points >= 100)
+            if (Status == "Ordinary")
             {
-                Status = "Silver";
+                if (Points >= 200)
+                {
+                    Status = "Gold";
+                }
+                else if (Points >= 100)
+                {
+                    Status = "Silver";
+                }
             }
-            else
+            else if (Status == "Silver")
             {
-                Status = "Ordinary";
+                if (Points >= 200)
+                {
+                    Status = "Gold";
+                }
             }
+
             return false;
         }
 
