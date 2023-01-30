@@ -24,13 +24,13 @@ namespace HotelManagementSoftware
             int change = Convert.ToInt32(amt);
             Points = Points + (change / 10);
 
-            if (Points >= 100)
-            {
-                Status = "Silver";
-            }
-            else if (Points >= 200)
+            if (Points >= 200)
             {
                 Status = "Gold";
+            }
+            else if (Points >= 100)
+            {
+                Status = "Silver";
             }
             else
             {
@@ -46,6 +46,18 @@ namespace HotelManagementSoftware
                  Points -= p;
                  return true;
              }
+            if (Points >= 200)
+            {
+                Status = "Gold";
+            }
+            else if (Points >= 100)
+            {
+                Status = "Silver";
+            }
+            else
+            {
+                Status = "Ordinary";
+            }
             return false;
         }
 
