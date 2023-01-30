@@ -568,6 +568,112 @@ void ExtendStay(List<Guest> guestList)
 
 }
 
+//Advanced Feature 2
+void DisplayMonthlyCharges(List<Stay> stayList)
+{
+    int year = 0;
+    while (true)
+    {
+        try
+        {
+            Console.Write("Enter the year: ");
+            year = Convert.ToInt32(Console.ReadLine());
+            break;
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Please Enter a Valid Year!");
+        }
+    }
+    Console.WriteLine();
+    double total = 0;
+    double jan = 0;
+    double feb = 0;
+    double mar = 0;
+    double apr = 0;
+    double may = 0;
+    double jun = 0;
+    double jul = 0;
+    double aug = 0;
+    double sep = 0;
+    double oct = 0;
+    double nov = 0;
+    double dec = 0;
+    foreach (Stay stay in stayList)
+    {
+        if (stay.CheckOutDate.Year == year)
+        {
+            switch (stay.CheckOutDate.Month)
+            {
+                case 1:
+                    total += stay.CalculateTotal();
+                    jan += stay.CalculateTotal();
+                    continue;
+                case 2:
+                    total += stay.CalculateTotal();
+                    feb += stay.CalculateTotal();
+                    break;
+                case 3:
+                    total += stay.CalculateTotal();
+                    mar += stay.CalculateTotal();
+                    break;
+                case 4:
+                    total += stay.CalculateTotal();
+                    apr += stay.CalculateTotal();
+                    break;
+                case 5:
+                    total += stay.CalculateTotal();
+                    may += stay.CalculateTotal();
+                    break;
+                case 6:
+                    total += stay.CalculateTotal();
+                    jun += stay.CalculateTotal();
+                    break;
+                case 7:
+                    total += stay.CalculateTotal();
+                    jul += stay.CalculateTotal();
+                    break;
+                case 8:
+                    total += stay.CalculateTotal();
+                    aug += stay.CalculateTotal();
+                    break;
+                case 9:
+                    total += stay.CalculateTotal();
+                    sep += stay.CalculateTotal();
+                    break;
+                case 10:
+                    total += stay.CalculateTotal();
+                    oct += stay.CalculateTotal();
+                    break;
+                case 11:
+                    total += stay.CalculateTotal();
+                    nov += stay.CalculateTotal();
+                    break;
+                case 12:
+                    total += stay.CalculateTotal();
+                    dec += stay.CalculateTotal();
+                    break;
+
+            }
+        }
+    }
+    Console.WriteLine("Jan {0}:   ${1:f2}", year, jan);
+    Console.WriteLine("Feb {0}:   ${1:f2}", year, feb);
+    Console.WriteLine("Mar {0}:   ${1:f2}", year, mar);
+    Console.WriteLine("Apr {0}:   ${1:f2}", year, apr);
+    Console.WriteLine("May {0}:   ${1:f2}", year, may);
+    Console.WriteLine("Jun {0}:   ${1:f2}", year, jun);
+    Console.WriteLine("Jul {0}:   ${1:f2}", year, jul);
+    Console.WriteLine("Aug {0}:   ${1:f2}", year, aug);
+    Console.WriteLine("Sep {0}:   ${1:f2}", year, sep);
+    Console.WriteLine("Oct {0}:   ${1:f2}", year, oct);
+    Console.WriteLine("Nov {0}:   ${1:f2}", year, nov);
+    Console.WriteLine("Dec {0}:   ${1:f2}", year, dec);
+
+    Console.WriteLine();
+    Console.WriteLine("Total: ${0:f2}", total);
+}
+
 void CheckOutGuest(List<Guest> guestList)
 {
     Console.WriteLine();
@@ -649,6 +755,16 @@ CreateStay(stayList, guestList);
 CreateRoom(roomList);
 AddRoom(guestList, roomList);
 
+foreach (Stay stay in stayList)
+{
+    Console.WriteLine(stay.CheckOutDate);
+    Console.WriteLine(stay.CalculateTotal());
+    foreach (Room r in stay.RoomList)
+    {
+        Console.WriteLine("Daily rate");
+        Console.WriteLine(r.DailyRate);
+    }
+}
 
 while (true)
 {
@@ -687,7 +803,7 @@ while (true)
         }
         else if (option == 7)
         {
-
+            DisplayMonthlyCharges(stayList);
         }
         else if (option == 8)
         {
@@ -704,6 +820,7 @@ while (true)
         Console.WriteLine("Please Enter A Valid Option! (0 to 6)");
     }
 }
+
 
 
 
