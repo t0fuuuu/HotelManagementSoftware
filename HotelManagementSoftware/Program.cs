@@ -755,16 +755,6 @@ CreateStay(stayList, guestList);
 CreateRoom(roomList);
 AddRoom(guestList, roomList);
 
-foreach (Stay stay in stayList)
-{
-    Console.WriteLine(stay.CheckOutDate);
-    Console.WriteLine(stay.CalculateTotal());
-    foreach (Room r in stay.RoomList)
-    {
-        Console.WriteLine("Daily rate");
-        Console.WriteLine(r.DailyRate);
-    }
-}
 
 while (true)
 {
