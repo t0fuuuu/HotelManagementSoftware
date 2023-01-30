@@ -732,6 +732,10 @@ void CheckOutGuest(List<Guest> guestList)
                     Console.WriteLine();
                     foundguest.Member.EarnPoints(amt);
                     foundguest.IsCheckedIn = false;
+                    foreach (Room room in foundguest.HotelStay.RoomList)
+                    {
+                        room.IsAvail = true;
+                    }
                     break;
                 }
                 else
@@ -799,6 +803,7 @@ while (true)
         if (option == 0)
         {
             Console.WriteLine("Thank you for using Hotel Management System! Have a Nice Day!");
+            break;
         }
         else if (option == 1)
         {
